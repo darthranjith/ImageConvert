@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Ranjith's Reference #4'
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <img src="assets/angular.png" #mainRef/>
+  <img *ngIf="processedImage !== ''" [src]="processedImage" #processedRef/>
+</ion-content>
