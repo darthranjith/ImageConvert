@@ -10,7 +10,6 @@ import { ImageResizer, ImageResizerOptions } from '@ionic-native/image-resizer';
 export class HomePage {
   processedImage: any = '';
   @ViewChild('mainRef') mainImageRef: ElementRef;
-  @ViewChild('processedRef') processedImageRef: ElementRef;
   constructor(public navCtrl: NavController,
     private imageResizer: ImageResizer,
     public alertCtrl: AlertController) {
