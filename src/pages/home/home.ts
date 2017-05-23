@@ -27,7 +27,7 @@ export class HomePage {
     this.imageResizer
       .resize(options)
       .then((filePath: string) => {
-        this.convertToDataURLviaCanvas(filePath, 'image/png').then(
+        this.convertToBase64(filePath, 'image/png').then(
           data => {
             console.log(data);
             let alert = this.alertCtrl.create({
@@ -47,7 +47,7 @@ export class HomePage {
       .catch(e => console.log(e));
   }
 
-  convertToDataURLviaCanvas(url, outputFormat) {
+  convertToBase64(url, outputFormat) {
     return new Promise((resolve, reject) => {
       let img = new Image();
       img.crossOrigin = 'Anonymous';
