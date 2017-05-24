@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, AlertController } from 'ionic-angular';
 import { ImageResizer, ImageResizerOptions } from '@ionic-native/image-resizer';
+import { ImagePicker } from '@ionic-native/image-picker';
 
 @Component({
   selector: 'page-home',
@@ -8,42 +9,45 @@ import { ImageResizer, ImageResizerOptions } from '@ionic-native/image-resizer';
 })
 
 export class HomePage {
-  processedImage: any = '';
-  @ViewChild('mainRef') mainImageRef: ElementRef;
+  imageurlfrompicker: string = "";
+  imageurlfromresizer: string = "";
+  imagebase64: string = "";
   constructor(public navCtrl: NavController,
     private imageResizer: ImageResizer,
-    public alertCtrl: AlertController) {
-
+    public alertCtrl: AlertController,
+    public imagePicker: ImagePicker) {
   }
-  ionViewDidLoad() {
+  getImage() {
     let options = {
-      uri: this.mainImageRef.nativeElement.src,
-      folderName: 'demofolder',
+      maximumImagesCount: 3,
+      width: 400,
+      height: 400,
       quality: 90,
-      width: 1280,
-      height: 1280
-    } as ImageResizerOptions;
-    this.imageResizer
-      .resize(options)
-      .then((filePath: string) => {
-        this.convertToBase64(filePath, 'image/png').then(
-          data => {
-            console.log(data);
-            let alert = this.alertCtrl.create({
-              title: data.toString(),
-              buttons: ['Dismiss']
-            });
-            alert.present();
-          }
-        );
-        console.log('FilePath', filePath)
-        let alert = this.alertCtrl.create({
-          title: filePath,
-          buttons: ['Dismiss']
-        });
-        alert.present();
-      })
-      .catch(e => console.log(e));
+      outputType: 0
+    };
+    this.imagePicker.getPictures(options).then((results) => {
+      for (var i = 0; i < results.length; i++) {
+        this.imageurlfrompicker = results[i];
+        let resizeoptions = {
+          uri: results[i],
+          folderName: 'demofolder',
+          quality: 90,
+          width: 1280,
+          height: 1280
+        } as ImageResizerOptions;
+        this.imageResizer
+          .resize(resizeoptions)
+          .then((filePath: string) => {
+            this.imageurlfromresizer = filePath;
+            this.convertToBase64(filePath, 'image/png').then(
+              data => {
+                this.imagebase64 = data.toString();
+              }
+            );
+          })
+          .catch(e => console.log(e));
+      }
+    }, (err) => { });
   }
 
   convertToBase64(url, outputFormat) {

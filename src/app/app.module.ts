@@ -8,6 +8,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 
 import { ImageResizer, ImageResizerOptions } from '@ionic-native/image-resizer';
+import { ImagePicker } from '@ionic-native/image-picker';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ImageResizer, ImageResizerOptions } from '@ionic-native/image-resizer';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ImageResizer
+    ImageResizer,
+    ImagePicker
   ]
 })
 export class AppModule {}
